@@ -35,8 +35,6 @@ const chatModel = require("./models/mongoChat")
 const prodModel = require("./models/mongoProd")
 
 
-
-
 // Mongoose connection
 mongoose.connect(`${SCHEMA}://${USER}:${PASSWORD}@${HOSTNAME}/${DATABASE}?${OPTIONS}`).then(()=>{
     console.log("Connected to mongoose");
@@ -98,20 +96,22 @@ mongoose.connect(`${SCHEMA}://${USER}:${PASSWORD}@${HOSTNAME}/${DATABASE}?${OPTI
         
         
         // routers
-        const userRouter = require('./routes/user.routes')
         const bikeRouter = require("./routes/bikes")
         const chatRouter = require("./routes/chat")
         const homeRouter = require('./routes/home')
+        const infoRouter = require('./routes/info')
         const prodTestRouter = require("./routes/product-test")
+        const randomRouter = require("./routes/randoms")
+        const userRouter = require('./routes/user.routes')
         
-        app.use("/api/users", userRouter)
         app.use("/api/bikes", bikeRouter)
         app.use("/api/chat", chatRouter)
-        app.use("/", homeRouter)
+        app.use("/info", infoRouter)
         app.use("/api/product-test", prodTestRouter)
-        
-        
-    
+        app.use("/api/randoms", randomRouter)
+        app.use("/api/users", userRouter)
+        app.use("/", homeRouter)
+
     
     //-------- HANDLEBARS
     
@@ -126,7 +126,7 @@ mongoose.connect(`${SCHEMA}://${USER}:${PASSWORD}@${HOSTNAME}/${DATABASE}?${OPTI
     app.set("view engine", "handlebars")
     
     
-    server.listen(8080, () => console.log(`Server running on http://localhost:8080`))
+    server.listen(process.env.PORT, () => console.log(`Server running on http://localhost:8080`))
     server.on('err', (err) => console.log(`Error: ${err}`))
 })
 .catch((err)=>console.log("Error on mongo: ", err))

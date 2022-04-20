@@ -4,7 +4,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node app.js",
-    "dev": "nodemon app.js"
+    "dev": "nodemon -r dotenv/config app.js"
   },
   "author": "",
   "license": "ISC",
@@ -20,6 +20,7 @@
     "faker": "^5.5.3",
     "jsonwebtoken": "^8.5.1",
     "knex": "^1.0.3",
+    "minimist": "^1.2.6",
     "moment": "^2.29.1",
     "mongoose": "^6.2.8",
     "mysql": "^2.18.1",
