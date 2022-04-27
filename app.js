@@ -21,7 +21,6 @@ initializePassport(passport)
 const MongoStore = require("connect-mongo")
 const { mongoConfig } = require("./config")
 const { HOSTNAME, SCHEMA, OPTIONS, DATABASE, USER, PASSWORD} = mongoConfig
-//const FileStore = require('session-file-store')
 
 
 // websocket
@@ -55,12 +54,6 @@ mongoose.connect(`${SCHEMA}://${USER}:${PASSWORD}@${HOSTNAME}/${DATABASE}?${OPTI
             expire: 1000 * 1 * 60,
             autoRemove: "native"
         })
-        //     store: new FileStore({
-        //     path: path.join(__dirname, "./session"),
-        //     ttl: 60,
-        //     reapInterval: 60,
-        //     retires: 0
-        // })
     }))
 
 
@@ -126,7 +119,7 @@ mongoose.connect(`${SCHEMA}://${USER}:${PASSWORD}@${HOSTNAME}/${DATABASE}?${OPTI
     app.set("view engine", "handlebars")
     
     
-    server.listen(process.env.PORT, () => console.log(`Server running on http://localhost:8080`))
-    server.on('err', (err) => console.log(`Error: ${err}`))
+    //server.listen(process.env.PORT, () => console.log(`Server running on http://localhost:8080`))
+    // server.on('err', (err) => console.log(`Error: ${err}`))
 })
 .catch((err)=>console.log("Error on mongo: ", err))

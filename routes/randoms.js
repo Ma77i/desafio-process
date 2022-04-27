@@ -1,56 +1,57 @@
-const { Router } = require('express')
-const router = Router()
-const { fork } = require('child_process')
+const { Router } = require("express");
+const router = Router();
 
+const { fork } = require("child_process");
+const cluster = require("cluster");
+const http = require("http");
+const { cpus } = require("os");
 
+const numCPUs = cpus().length;
+const PORT = process.argv[2] || 8000;
+const { getRandom } = require("../random.js");
 
-/* const suma = () => {
-    let suma = 0
-    for (let i = 0; i < 1e6; i++) {
-        suma += i;
-    }
-    return suma
-} */
+if (cluster.isPrimary) {
+  console.log(`Primary ${process.pid} is running`);
 
-/* 
-const sum = suma()
-console.log(sum)
-res.send(sum.toString()) */
-router.get("/", (req, res)=>{
-    
-    const { query } = req
-    console.log(query)
+  // Fork workers.
+  for (let i = 0; i < numCPUs; i++) {
+    cluster.fork();
+  }
 
-    console.time("time")
-    const random = fork("random.js")
+  cluster.on("exit", (worker, code, signal) => {
+    console.log(`worker ${worker.process.pid} died`);
+  });
+} else {
+
+  // Workers can share any TCP connection
+  // In this case it is an HTTP server
+  http
+    .createServer((req, res) => {
+      res.writeHead(200);
+      res.end(`hello world\n ${process.pid}\n ${getRandom}`);
+    })
+    .listen(process.env.PORT, () => console.log(`Server running on http://localhost:8080`));
+
+  console.log(`Worker ${process.pid} started`);
+  console.log(`Listening on http://localhost:${PORT}`);
+  //process.exit()
+  router.get("/", (req, res) => {
+    const { query } = req;
+    console.log(query);
+  
+    console.time("time");
+    const random = fork("random.js");
     random.send({
-        message: 'start',
-        num: +query.num
-    })
-    random.on('message', (message)=>{
-        //console.log(message)
-        res.send(message)
-    })
-    console.timeEnd("time")
-})
-
-module.exports = router
-
+      message: "start",
+      num: +query.num
+    });
+    random.on("message", (message) => {
+      //console.log(message)
+      res.send(message);
+    });
+    console.timeEnd("time");
+  });
+}
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+module.exports = router;

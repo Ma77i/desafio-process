@@ -1,4 +1,4 @@
-const getRandom = (n) => {
+exports.getRandom = (n) => {
     const numeros = {}
 
     function getRandomInt() {
