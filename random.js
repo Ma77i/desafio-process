@@ -1,4 +1,4 @@
-exports.getRandom = (n) => {
+const getRandom = (n) => {
     const numeros = {}
 
     function getRandomInt() {
@@ -19,3 +19,5 @@ process.on('message', (obj)=>{
         process.exit()
     }
 })
+
+module.exports = getRandom()
