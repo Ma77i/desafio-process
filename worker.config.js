@@ -2,14 +2,14 @@ module.exports = {
   apps: [{
     name: "Server 1",
     script: "app.js",
-    args: "3030"
+    args: "8080"
   },{
     name: "Server 2",
     script: "cluster.js",
-    args: "3031"
+    args: "8081"
   },{
     name: "Server 3",
     script: "app.js",
-    args: "3032"
+    args: "8082"
   }]
 }

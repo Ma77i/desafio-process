@@ -5,11 +5,11 @@
   "scripts": {
     "start": "node -r dotenv/config app.js",
     "dev": "nodemon -r dotenv/config app.js",
-    "start:cluster": "node -r dotenv/config cluster.js",
+    "cluster": "node -r dotenv/config cluster.js",
     "forever": "forever start app.js",
     "forever:server": "forever cluster.js",
     "pm2": "pm2 start worker.config.js",
-    "pm2:server": "pm2 cluster"
+    "pm2:server": "pm2 start cluster"
   },
   "author": "",
   "license": "ISC",
