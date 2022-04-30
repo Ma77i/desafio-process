@@ -1,8 +1,8 @@
 const cluster = require("cluster");
-const http = require("http");
 const { cpus } = require("os");
 
 const server = require("./app");
+const dotenv = require('dotenv').config()
 
 const numCPUs = cpus().length;
 const PORT = process.argv[2] || 8080;
@@ -24,5 +24,5 @@ if (MODE !== "FORK") {
     //console.log(`This is the Worker process: ${process.pid}`);
   }
 } else {
-  server.listen(PORT, () => console.log(`Listening on http://localhost:${PORT}`));
+  server.listen(process.env.PORT, () => console.log(`Listening on http://localhost:${PORT}`));
 }
